@@ -44,8 +44,7 @@ Todas las fotos viven en el repositorio público **`TiagoJobson25/fotos-casa-ede
 
 ### ⚠️ Lo que NO está resuelto: relación producto ↔ foto
 El repositorio **no tiene un índice** que diga qué foto va con qué producto. Esa relación hoy está en Tienda Nube (cada producto tiene su imagen cargada). Para la web nueva hay que reconstruirla. Opciones, de mejor a peor:
-1. Exportar desde el admin de Tienda Nube la planilla de productos con **URLs de imágenes** y, a partir de ahí, generar el índice (la CDN de Tienda Nube también sirve las fotos, pero conviene copiarlas al hosting propio para no depender de la tienda).
-2. Releer cada producto público de la tienda y extraer su imagen.
+1. Exportar la planilla de productos desde el admin (Productos > Lista de Productos > Importar y exportar > Exportar; **NO trae imágenes**, según la ayuda oficial de Tienda Nube) para tener la lista y el "Identificador de URL" de cada producto, y con eso leer la página pública de cada producto para sacar su imagen. En la CDN de Tienda Nube el nombre del archivo conserva el nombre de la foto original subida desde este repo (ej. `tarugo-comun-<hash>-1024-1024.jpg` viene de `faltantes/tarugo-comun.jpg`), lo que permite reconstruir la relación. Ojo: el contenedor de trabajo puede no alcanzar la tienda desde la terminal; en ese caso usar las herramientas de lectura web o el navegador.
 3. Cruzar por código de artículo / nombre de archivo (funciona en las carpetas por código, no en `faltantes/`).
 Hay que decidirlo al arrancar y validar con una muestra antes de generar todo.
 
