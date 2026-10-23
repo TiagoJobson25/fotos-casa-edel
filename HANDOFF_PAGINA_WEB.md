@@ -42,11 +42,13 @@ Todas las fotos viven en el repositorio público **`TiagoJobson25/fotos-casa-ede
 - Fotos de Tacsa: están además en un Excel de Drive con links; se prefieren esas (mejor calidad) aun donde ya había otra.
 - URL directa de una foto: `https://raw.githubusercontent.com/TiagoJobson25/fotos-casa-edel/main/<carpeta>/<archivo>.jpg`
 
-### ⚠️ Lo que NO está resuelto: relación producto ↔ foto
-El repositorio **no tiene un índice** que diga qué foto va con qué producto. Esa relación hoy está en Tienda Nube (cada producto tiene su imagen cargada). Para la web nueva hay que reconstruirla. Opciones, de mejor a peor:
-1. Exportar la planilla de productos desde el admin (Productos > Lista de Productos > Importar y exportar > Exportar; **NO trae imágenes**, según la ayuda oficial de Tienda Nube) para tener la lista y el "Identificador de URL" de cada producto, y con eso leer la página pública de cada producto para sacar su imagen. En la CDN de Tienda Nube el nombre del archivo conserva el nombre de la foto original subida desde este repo (ej. `tarugo-comun-<hash>-1024-1024.jpg` viene de `faltantes/tarugo-comun.jpg`), lo que permite reconstruir la relación. Ojo: el contenedor de trabajo puede no alcanzar la tienda desde la terminal; en ese caso usar las herramientas de lectura web o el navegador.
-3. Cruzar por código de artículo / nombre de archivo (funciona en las carpetas por código, no en `faltantes/`).
-Hay que decidirlo al arrancar y validar con una muestra antes de generar todo.
+### Índice producto ↔ foto: `INDICE_FOTOS.csv` (en la raíz de este repo)
+Columnas: `carpeta, archivo, handle, sku, nombre, en_planilla, fuente`. `handle` es el "Identificador URL" del producto en Tienda Nube (el que sale en la planilla de exportación, columna "Identificador de URL"); `sku` y `nombre` salen de la planilla de carga. Una foto compartida por varias variantes aparece en varias filas.
+- **Cubre 1.451 fotos y 1.485 productos** (todos los handles verificados contra la planilla de carga de Tienda Nube: 8.064 productos).
+- Se armó de tres fuentes: (1) fotos cuyo nombre de archivo ya es el handle del producto (Genrod, Jadever, Macroled, King, RBC, Elent, Chint, Weidmuller, parte de Jeluz e Inteck): 775; (2) tablas de carga por marca (Sica, Cambre, Candil, BAW, Bulit, Kalop, AG, Bael, Suprabond, Genrod): 635; (3) las fotos de `faltantes/` cargadas con `update_product` en la última etapa: 77 productos.
+- **NO está mapeado (1.285 fotos)**: Teclastar (232), San Justo (146+216), Jeluz (68), Candil (122), JA (83), Zoloda (77), Interelec (51), Ferretera (59), Schneider (38), cables (47), `faltantes/` de etapas anteriores (70), Commax (26), Conextube (13), Genrod tablas (14), Chapa (8), y unas pocas sueltas. En esos casos las fotos se cargaron a mano o con un procedimiento cuyo registro no quedó guardado. La relación existe en Tienda Nube.
+- Para completar lo que falta: usar el **CSV de URLs de imágenes que se pidió a soporte de Tienda Nube** (si trae el identificador del producto), o cruzar por SKU/nombre contra la planilla (en San Justo y Jeluz el nombre de archivo es el código de artículo), o validar con una muestra y completar a mano las carpetas chicas. En la CDN de Tienda Nube el nombre de cada imagen conserva el nombre de la foto original subida desde este repo.
+- Tiene que quedar claro al armar la web: un producto sin foto en este índice **no significa que no tenga foto en la tienda**; significa que no lo puedo probar desde acá.
 
 ## 6. Arquitectura propuesta
 - **Fuente de verdad: una Google Sheet** con una fila por producto/variante: código, nombre, marca, categoría/subcategoría, precio (ya con el 20%), unidad (u / m / rollo), variante, foto (ruta relativa), stock (opcional), `visible` (sí/no), orden.
